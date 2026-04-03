@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <title>Shariah Accounting Dashboard</title>
 
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
 body {
   font-family: Arial, sans-serif;
@@ -40,7 +43,7 @@ body {
   background: #0f766e;
 }
 
-/* CONTENT */
+/* MAIN */
 .main {
   margin-left: 220px;
   padding: 20px;
@@ -50,6 +53,7 @@ body {
 .cards {
   display: flex;
   gap: 15px;
+  margin-bottom: 20px;
 }
 
 .card {
@@ -63,8 +67,9 @@ body {
 /* TABLE */
 table {
   width: 100%;
-  margin-top: 20px;
   border-collapse: collapse;
+  background: white;
+  margin-top: 20px;
 }
 
 th, td {
@@ -81,12 +86,56 @@ th, td {
   color: orange;
   font-weight: bold;
 }
+
+/* AI ASSISTANT */
+.ai-box {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 300px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.ai-header {
+  background: #0f766e;
+  color: white;
+  padding: 10px;
+  border-radius: 10px 10px 0 0;
+}
+
+.ai-body {
+  padding: 10px;
+  height: 200px;
+  overflow-y: auto;
+}
+
+.ai-input {
+  display: flex;
+}
+
+.ai-input input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-top: 1px solid #ddd;
+}
+
+.ai-input button {
+  background: #0f766e;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
 </style>
 
 </head>
 
 <body>
 
+<!-- SIDEBAR -->
 <div class="sidebar">
   <h3 style="text-align:center;">Menu</h3>
   <a href="#">Overview</a>
@@ -96,6 +145,7 @@ th, td {
   <a href="#">Settings</a>
 </div>
 
+<!-- MAIN -->
 <div class="main">
 
 <div class="header">
@@ -104,6 +154,7 @@ th, td {
 
 <p>Project by Eka Haryanti</p>
 
+<!-- CARDS -->
 <div class="cards">
   <div class="card">Total Assets<br><b>Rp 10M</b></div>
   <div class="card">Total Financing<br><b>Rp 7M</b></div>
@@ -111,8 +162,12 @@ th, td {
   <div class="card">AI Audit Score<br><b>95%</b></div>
 </div>
 
-<h3>Recent Transactions</h3>
+<!-- CHART -->
+<h3>Revenue Growth</h3>
+<canvas id="myChart"></canvas>
 
+<!-- TABLE -->
+<h3>Recent Transactions</h3>
 <table>
 <tr>
   <th>Date</th>
@@ -132,6 +187,57 @@ th, td {
 </table>
 
 </div>
+
+<!-- AI ASSISTANT -->
+<div class="ai-box">
+  <div class="ai-header">Sharia Intelligent Assistant</div>
+  <div class="ai-body" id="chatBox">
+    <p><b>AI:</b> Ask me about zakat or sharia compliance.</p>
+  </div>
+  <div class="ai-input">
+    <input type="text" id="userInput" placeholder="Type here...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<!-- SCRIPT -->
+<script>
+
+// CHART
+const ctx = document.getElementById('myChart');
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+    datasets: [{
+      label: 'Revenue',
+      data: [100, 200, 150, 300, 400],
+      borderWidth: 2
+    }]
+  }
+});
+
+// AI CHAT SIMULASI
+function sendMessage() {
+  let input = document.getElementById("userInput").value;
+  let chatBox = document.getElementById("chatBox");
+
+  chatBox.innerHTML += "<p><b>You:</b> " + input + "</p>";
+
+  let response = "Transaction needs review.";
+  
+  if(input.toLowerCase().includes("zakat")){
+    response = "Zakat for this quarter is Rp 500.000";
+  } else if(input.toLowerCase().includes("sharia")){
+    response = "This transaction is Sharia Compliant.";
+  }
+
+  chatBox.innerHTML += "<p><b>AI:</b> " + response + "</p>";
+
+  document.getElementById("userInput").value = "";
+}
+
+</script>
 
 </body>
 </html>
