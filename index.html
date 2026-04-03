@@ -241,3 +241,25 @@ function sendMessage() {
 
 </body>
 </html>
+<script>
+function showPage(page) {
+  document.getElementById("overview").style.display = "none";
+  document.getElementById("mudharabah").style.display = "none";
+  document.getElementById("zakat").style.display = "none";
+  document.getElementById("audit").style.display = "none";
+  document.getElementById("settings").style.display = "none";
+
+  document.getElementById(page).style.display = "block";
+}
+</script>
+<a href="#" onclick="showPage('overview')">Overview</a>
+<a href="#" onclick="showPage('mudharabah')">Mudharabah</a>
+<a href="#" onclick="showPage('zakat')">Zakat</a>
+<a href="#" onclick="showPage('audit')">Audit</a>
+<a href="#" onclick="showPage('settings')">Settings</a>
+<div id="overview">ISI DASHBOARD UTAMA</div>
+<div id="mudharabah" style="display:none;">ISI MUDHARABAH</div>
+<div id="zakat" style="display:none;">ISI ZAKAT</div>
+<div id="audit" style="display:none;">ISI AUDIT</div>
+<div id="settings" style="display:none;">ISI SETTINGS</div>
+
