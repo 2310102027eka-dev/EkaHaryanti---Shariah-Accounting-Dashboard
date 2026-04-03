@@ -1,10 +1,137 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Shariah Accounting Dashboard</title>
+<meta charset="UTF-8">
+<title>Shariah Accounting Dashboard</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f4f6f8;
+}
+
+/* HEADER */
+.header {
+  background: #0f766e;
+  color: white;
+  padding: 20px;
+  font-size: 24px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 220px;
+  height: 100vh;
+  background: #134e4a;
+  color: white;
+  position: fixed;
+  padding-top: 20px;
+}
+
+.sidebar a {
+  display: block;
+  color: white;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  background: #0f766e;
+}
+
+/* CONTENT */
+.main {
+  margin-left: 220px;
+  padding: 20px;
+}
+
+/* CARDS */
+.cards {
+  display: flex;
+  gap: 15px;
+}
+
+.card {
+  flex: 1;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* TABLE */
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.status-ok {
+  color: green;
+  font-weight: bold;
+}
+
+.status-review {
+  color: orange;
+  font-weight: bold;
+}
+</style>
+
 </head>
+
 <body>
-  <h1>Shariah Accounting Dashboard</h1>
-  <p>Project by Eka Haryanti</p>
+
+<div class="sidebar">
+  <h3 style="text-align:center;">Menu</h3>
+  <a href="#">Overview</a>
+  <a href="#">Mudharabah</a>
+  <a href="#">Zakat</a>
+  <a href="#">Audit</a>
+  <a href="#">Settings</a>
+</div>
+
+<div class="main">
+
+<div class="header">
+  Shariah Accounting Dashboard
+</div>
+
+<p>Project by Eka Haryanti</p>
+
+<div class="cards">
+  <div class="card">Total Assets<br><b>Rp 10M</b></div>
+  <div class="card">Total Financing<br><b>Rp 7M</b></div>
+  <div class="card">ZIS Funds<br><b>Rp 2M</b></div>
+  <div class="card">AI Audit Score<br><b>95%</b></div>
+</div>
+
+<h3>Recent Transactions</h3>
+
+<table>
+<tr>
+  <th>Date</th>
+  <th>Description</th>
+  <th>Status</th>
+</tr>
+<tr>
+  <td>01/03/2026</td>
+  <td>Murabaha Financing</td>
+  <td class="status-ok">Sharia Compliant</td>
+</tr>
+<tr>
+  <td>02/03/2026</td>
+  <td>Unknown Transaction</td>
+  <td class="status-review">Manual Review</td>
+</tr>
+</table>
+
+</div>
+
 </body>
 </html>
