@@ -1,67 +1,175 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Shariah Accounting Dashboard</title>
+<title>Sharia Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-body { font-family: Arial; margin: 0; background: #f4f6f8; }
+* { box-sizing: border-box; }
+body {
+  margin:0;
+  font-family: 'Segoe UI', sans-serif;
+  background:#f1f5f9;
+}
 
-.header { background: #0f766e; color: white; padding: 20px; font-size: 24px; }
-
+/* SIDEBAR */
 .sidebar {
-  width: 220px; height: 100vh; background: #134e4a;
-  color: white; position: fixed; padding-top: 20px;
+  width:230px;
+  height:100vh;
+  background:linear-gradient(180deg,#0f766e,#134e4a);
+  color:white;
+  position:fixed;
+  padding:20px;
+}
+
+.sidebar h2 {
+  text-align:center;
+  margin-bottom:20px;
 }
 
 .sidebar a {
-  display: block; color: white; padding: 12px; text-decoration: none;
+  display:block;
+  padding:12px;
+  margin:5px 0;
+  border-radius:8px;
+  cursor:pointer;
 }
-.sidebar a:hover { background: #0f766e; }
 
-.main { margin-left: 220px; padding: 20px; }
+.sidebar a:hover {
+  background:rgba(255,255,255,0.2);
+}
 
-.cards { display: flex; gap: 15px; margin-bottom: 20px; }
+/* MAIN */
+.main {
+  margin-left:230px;
+  margin-right:300px;
+  padding:20px;
+}
+
+/* HEADER */
+.header {
+  font-size:24px;
+  font-weight:bold;
+  margin-bottom:20px;
+}
+
+/* CARDS */
+.cards {
+  display:grid;
+  grid-template-columns: repeat(4,1fr);
+  gap:15px;
+}
 
 .card {
-  flex: 1; background: white; padding: 20px;
-  border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.05);
+  transition:0.3s;
+}
+
+.card:hover {
+  transform:translateY(-5px);
+}
+
+/* TABLE */
+.table-box {
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  margin-top:20px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.05);
 }
 
 table {
-  width: 100%; border-collapse: collapse; background: white;
+  width:100%;
+  border-collapse:collapse;
 }
-th, td { padding: 10px; border-bottom: 1px solid #ddd; }
 
-.status-ok { color: green; font-weight: bold; }
-.status-review { color: orange; font-weight: bold; }
+th {
+  background:#0f766e;
+  color:white;
+  padding:10px;
+}
 
-/* AI */
-.ai-box {
-  position: fixed; right: 20px; bottom: 20px;
-  width: 300px; background: white;
-  border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+td {
+  padding:10px;
+  border-bottom:1px solid #eee;
+}
+
+tr:hover {
+  background:#f9fafb;
+}
+
+/* BADGE */
+.badge-ok {
+  background:#d1fae5;
+  color:#065f46;
+  padding:5px 10px;
+  border-radius:20px;
+}
+
+.badge-review {
+  background:#fef3c7;
+  color:#92400e;
+  padding:5px 10px;
+  border-radius:20px;
+}
+
+/* AI PANEL */
+.ai-panel {
+  width:300px;
+  height:100vh;
+  position:fixed;
+  right:0;
+  top:0;
+  background:white;
+  display:flex;
+  flex-direction:column;
+  border-left:1px solid #ddd;
 }
 
 .ai-header {
-  background: #0f766e; color: white;
-  padding: 10px; border-radius: 10px 10px 0 0;
+  background:#0f766e;
+  color:white;
+  padding:15px;
+  font-weight:bold;
 }
 
 .ai-body {
-  padding: 10px; height: 200px; overflow-y: auto;
+  flex:1;
+  padding:10px;
+  overflow-y:auto;
 }
 
-.ai-input { display: flex; }
+.ai-input {
+  display:flex;
+  border-top:1px solid #ddd;
+}
 
 .ai-input input {
-  flex: 1; padding: 10px; border: none; border-top: 1px solid #ddd;
+  flex:1;
+  padding:10px;
+  border:none;
 }
 
 .ai-input button {
-  background: #0f766e; color: white;
-  border: none; padding: 10px; cursor: pointer;
+  background:#0f766e;
+  color:white;
+  border:none;
+  padding:10px;
+  cursor:pointer;
+}
+
+/* ANIMATION */
+.fade {
+  animation:fade 0.3s ease;
+}
+
+@keyframes fade {
+  from {opacity:0;}
+  to {opacity:1;}
 }
 </style>
 </head>
@@ -70,119 +178,117 @@ th, td { padding: 10px; border-bottom: 1px solid #ddd; }
 
 <!-- SIDEBAR -->
 <div class="sidebar">
-  <h3 style="text-align:center;">Menu</h3>
-  <a href="#" onclick="showPage('overview')">Overview</a>
-  <a href="#" onclick="showPage('mudharabah')">Mudharabah</a>
-  <a href="#" onclick="showPage('zakat')">Zakat</a>
-  <a href="#" onclick="showPage('audit')">Audit</a>
-  <a href="#" onclick="showPage('settings')">Settings</a>
+  <h2>Sharia Bank</h2>
+  <a onclick="showPage('overview')">🏠 Overview</a>
+  <a onclick="showPage('mudharabah')">💼 Mudharabah</a>
+  <a onclick="showPage('zakat')">💰 Zakat</a>
+  <a onclick="showPage('audit')">🧠 Audit</a>
+  <a onclick="showPage('settings')">⚙️ Settings</a>
 </div>
 
+<!-- MAIN -->
 <div class="main">
 
-<div class="header">Shariah Accounting Dashboard</div>
-<p>Project by Eka Haryanti</p>
+<div id="overview" class="fade">
+  <div class="header">Dashboard Overview</div>
 
-<!-- OVERVIEW -->
-<div id="overview">
   <div class="cards">
     <div class="card">Total Assets<br><b>Rp 10M</b></div>
-    <div class="card">Total Financing<br><b>Rp 7M</b></div>
+    <div class="card">Financing<br><b>Rp 7M</b></div>
     <div class="card">ZIS Funds<br><b>Rp 2M</b></div>
-    <div class="card">AI Audit Score<br><b>95%</b></div>
+    <div class="card">Audit Score<br><b>95%</b></div>
   </div>
 
-  <h3>Revenue Growth</h3>
-  <canvas id="myChart"></canvas>
+  <div class="table-box">
+    <h3>Revenue Growth</h3>
+    <canvas id="chart"></canvas>
+  </div>
 
-  <h3>Recent Transactions</h3>
-  <table>
-    <tr><th>Date</th><th>Description</th><th>Status</th></tr>
-    <tr><td>01/03/2026</td><td>Murabaha Financing</td><td class="status-ok">Sharia Compliant</td></tr>
-    <tr><td>02/03/2026</td><td>Unknown Transaction</td><td class="status-review">Manual Review</td></tr>
-  </table>
+  <div class="table-box">
+    <h3>Recent Transactions</h3>
+    <table>
+      <tr>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Amount</th>
+        <th>Status</th>
+      </tr>
+
+      <tr>
+        <td>01/03/2026</td>
+        <td>Murabaha</td>
+        <td>Rp 2.000.000</td>
+        <td><span class="badge-ok">Compliant</span></td>
+      </tr>
+
+      <tr>
+        <td>02/03/2026</td>
+        <td>Transfer</td>
+        <td>Rp 1.500.000</td>
+        <td><span class="badge-review">Review</span></td>
+      </tr>
+    </table>
+  </div>
 </div>
 
-<!-- MUDHARABAH -->
-<div id="mudharabah" style="display:none;">
-  <h2>Mudharabah Contracts</h2>
-  <p>List of active contracts and profit-sharing agreements.</p>
-</div>
-
-<!-- ZAKAT -->
-<div id="zakat" style="display:none;">
-  <h2>Zakat Management</h2>
-  <p>Total Zakat collected: Rp 2M</p>
-</div>
-
-<!-- AUDIT -->
-<div id="audit" style="display:none;">
-  <h2>Automated Audit</h2>
-  <p>System Status: Healthy ✅</p>
-</div>
-
-<!-- SETTINGS -->
-<div id="settings" style="display:none;">
-  <h2>Settings</h2>
-  <p>System configuration and preferences.</p>
-</div>
+<div id="mudharabah" style="display:none"><h2>Mudharabah Page</h2></div>
+<div id="zakat" style="display:none"><h2>Zakat Page</h2></div>
+<div id="audit" style="display:none"><h2>Audit Page</h2></div>
+<div id="settings" style="display:none"><h2>Settings Page</h2></div>
 
 </div>
 
 <!-- AI -->
-<div class="ai-box">
-  <div class="ai-header">Sharia Intelligent Assistant</div>
-  <div class="ai-body" id="chatBox">
-    <p><b>AI:</b> Ask about zakat or compliance.</p>
+<div class="ai-panel">
+  <div class="ai-header">🤖 Sharia AI</div>
+
+  <div class="ai-body" id="chat">
+    <p><b>AI:</b> Ask about zakat or compliance</p>
   </div>
+
   <div class="ai-input">
-    <input type="text" id="userInput">
-    <button onclick="sendMessage()">Send</button>
+    <input id="input" placeholder="Ask something...">
+    <button onclick="chat()">Send</button>
   </div>
 </div>
 
 <script>
 
-// MENU NAVIGATION
-function showPage(page) {
-  const pages = ["overview","mudharabah","zakat","audit","settings"];
-  pages.forEach(p => {
-    document.getElementById(p).style.display = "none";
-  });
-  document.getElementById(page).style.display = "block";
+// NAVIGATION
+function showPage(page){
+  let pages=["overview","mudharabah","zakat","audit","settings"];
+  pages.forEach(p=>document.getElementById(p).style.display="none");
+  document.getElementById(page).style.display="block";
 }
+showPage("overview");
 
 // CHART
-const ctx = document.getElementById('myChart');
-new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: ['Jan','Feb','Mar','Apr','May'],
-    datasets: [{
-      label: 'Revenue',
-      data: [100,200,150,300,400],
-      borderWidth: 2
+new Chart(document.getElementById("chart"), {
+  type:'line',
+  data:{
+    labels:["Jan","Feb","Mar","Apr","May"],
+    datasets:[{
+      label:"Revenue",
+      data:[100,200,150,300,400],
+      borderColor:"#0f766e",
+      tension:0.4
     }]
   }
 });
 
-// AI CHAT
-function sendMessage() {
-  let input = document.getElementById("userInput").value;
-  let chatBox = document.getElementById("chatBox");
+// AI
+function chat(){
+  let val=document.getElementById("input").value;
+  let box=document.getElementById("chat");
 
-  chatBox.innerHTML += "<p><b>You:</b> "+input+"</p>";
+  box.innerHTML += "<p><b>You:</b> "+val+"</p>";
 
-  let response = "Transaction needs review.";
+  let res="Needs review";
+  if(val.toLowerCase().includes("zakat")) res="Zakat = Rp 500.000";
+  if(val.toLowerCase().includes("sharia")) res="Compliant";
 
-  if(input.toLowerCase().includes("zakat")){
-    response = "Zakat = Rp 500.000";
-  } else if(input.toLowerCase().includes("sharia")){
-    response = "Transaction is Sharia Compliant.";
-  }
-
-  chatBox.innerHTML += "<p><b>AI:</b> "+response+"</p>";
-  document.getElementById("userInput").value = "";
+  box.innerHTML += "<p><b>AI:</b> "+res+"</p>";
+  document.getElementById("input").value="";
 }
 
 </script>
