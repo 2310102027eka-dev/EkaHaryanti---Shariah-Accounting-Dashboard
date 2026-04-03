@@ -1,188 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Shariah Accounting Dashboard</title>
+<title>Sharia Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-body { font-family: Arial; margin: 0; background: #f4f6f8; }
-
-.header { background: #0f766e; color: white; padding: 20px; font-size: 24px; }
-
-.sidebar {
-  width: 220px; height: 100vh; background: #134e4a;
-  color: white; position: fixed; padding-top: 20px;
-}
-
-.sidebar a {
-  display: block; color: white; padding: 12px; text-decoration: none;
-}
-.sidebar a:hover { background: #0f766e; }
-
-.main { margin-left: 220px; padding: 20px; }
-
-.cards { display: flex; gap: 15px; margin-bottom: 20px; }
-
-.card {
-  flex: 1; background: white; padding: 20px;
-  border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-table {
-  width: 100%; border-collapse: collapse; background: white;
-}
-th, td { padding: 10px; border-bottom: 1px solid #ddd; }
-
-.status-ok { color: green; font-weight: bold; }
-.status-review { color: orange; font-weight: bold; }
-
-/* AI */
-.ai-box {
-  position: fixed; right: 20px; bottom: 20px;
-  width: 300px; background: white;
-  border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-}
-
-.ai-header {
-  background: #0f766e; color: white;
-  padding: 10px; border-radius: 10px 10px 0 0;
-}
-
-.ai-body {
-  padding: 10px; height: 200px; overflow-y: auto;
-}
-
-.ai-input { display: flex; }
-
-.ai-input input {
-  flex: 1; padding: 10px; border: none; border-top: 1px solid #ddd;
-}
-
-.ai-input button {
-  background: #0f766e; color: white;
-  border: none; padding: 10px; cursor: pointer;
-}
+body { font-family: Arial; margin:0; background:#f4f6f8;}
+.sidebar {width:220px;height:100vh;background:#134e4a;position:fixed;color:white;}
+.sidebar a {display:block;padding:12px;color:white;text-decoration:none;}
+.sidebar a:hover {background:#0f766e;}
+.main {margin-left:220px;padding:20px;}
+.card {background:white;padding:20px;margin:10px;border-radius:10px;}
+.ai-box {position:fixed;right:20px;bottom:20px;width:250px;background:white;border-radius:10px;}
 </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
+<!-- MENU -->
 <div class="sidebar">
   <h3 style="text-align:center;">Menu</h3>
-  <a href="#" onclick="showPage('overview')">Overview</a>
-  <a href="#" onclick="showPage('mudharabah')">Mudharabah</a>
-  <a href="#" onclick="showPage('zakat')">Zakat</a>
-  <a href="#" onclick="showPage('audit')">Audit</a>
-  <a href="#" onclick="showPage('settings')">Settings</a>
+  <a onclick="showPage('overview')">Overview</a>
+  <a onclick="showPage('mudharabah')">Mudharabah</a>
+  <a onclick="showPage('zakat')">Zakat</a>
+  <a onclick="showPage('audit')">Audit</a>
+  <a onclick="showPage('settings')">Settings</a>
 </div>
 
 <div class="main">
 
-<div class="header">Shariah Accounting Dashboard</div>
-<p>Project by Eka Haryanti</p>
-
 <!-- OVERVIEW -->
 <div id="overview">
-  <div class="cards">
-    <div class="card">Total Assets<br><b>Rp 10M</b></div>
-    <div class="card">Total Financing<br><b>Rp 7M</b></div>
-    <div class="card">ZIS Funds<br><b>Rp 2M</b></div>
-    <div class="card">AI Audit Score<br><b>95%</b></div>
-  </div>
-
-  <h3>Revenue Growth</h3>
-  <canvas id="myChart"></canvas>
-
-  <h3>Recent Transactions</h3>
-  <table>
-    <tr><th>Date</th><th>Description</th><th>Status</th></tr>
-    <tr><td>01/03/2026</td><td>Murabaha Financing</td><td class="status-ok">Sharia Compliant</td></tr>
-    <tr><td>02/03/2026</td><td>Unknown Transaction</td><td class="status-review">Manual Review</td></tr>
-  </table>
+  <h2>Dashboard</h2>
+  <div class="card">Assets: Rp 10M</div>
+  <canvas id="chart"></canvas>
 </div>
 
-<!-- MUDHARABAH -->
-<div id="mudharabah" style="display:none;">
-  <h2>Mudharabah Contracts</h2>
-  <p>List of active contracts and profit-sharing agreements.</p>
-</div>
-
-<!-- ZAKAT -->
-<div id="zakat" style="display:none;">
-  <h2>Zakat Management</h2>
-  <p>Total Zakat collected: Rp 2M</p>
-</div>
-
-<!-- AUDIT -->
-<div id="audit" style="display:none;">
-  <h2>Automated Audit</h2>
-  <p>System Status: Healthy ✅</p>
-</div>
-
-<!-- SETTINGS -->
-<div id="settings" style="display:none;">
-  <h2>Settings</h2>
-  <p>System configuration and preferences.</p>
-</div>
+<!-- PAGE -->
+<div id="mudharabah" style="display:none;"><h2>Mudharabah Page</h2></div>
+<div id="zakat" style="display:none;"><h2>Zakat Page</h2></div>
+<div id="audit" style="display:none;"><h2>Audit Page</h2></div>
+<div id="settings" style="display:none;"><h2>Settings Page</h2></div>
 
 </div>
 
 <!-- AI -->
 <div class="ai-box">
-  <div class="ai-header">Sharia Intelligent Assistant</div>
-  <div class="ai-body" id="chatBox">
-    <p><b>AI:</b> Ask about zakat or compliance.</p>
-  </div>
-  <div class="ai-input">
-    <input type="text" id="userInput">
-    <button onclick="sendMessage()">Send</button>
-  </div>
+  <input id="input">
+  <button onclick="chat()">Send</button>
+  <div id="chat"></div>
 </div>
 
 <script>
 
-// MENU NAVIGATION
-function showPage(page) {
-  const pages = ["overview","mudharabah","zakat","audit","settings"];
-  pages.forEach(p => {
-    document.getElementById(p).style.display = "none";
-  });
-  document.getElementById(page).style.display = "block";
+// NAVIGATION FIX (SUPER STABIL)
+function showPage(page){
+  let pages = ["overview","mudharabah","zakat","audit","settings"];
+  for(let i=0;i<pages.length;i++){
+    document.getElementById(pages[i]).style.display="none";
+  }
+  document.getElementById(page).style.display="block";
 }
 
+// DEFAULT PAGE
+showPage("overview");
+
 // CHART
-const ctx = document.getElementById('myChart');
-new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: ['Jan','Feb','Mar','Apr','May'],
-    datasets: [{
-      label: 'Revenue',
-      data: [100,200,150,300,400],
-      borderWidth: 2
-    }]
+new Chart(document.getElementById("chart"), {
+  type:'line',
+  data:{
+    labels:["Jan","Feb","Mar"],
+    datasets:[{data:[10,20,30]}]
   }
 });
 
-// AI CHAT
-function sendMessage() {
-  let input = document.getElementById("userInput").value;
-  let chatBox = document.getElementById("chatBox");
-
-  chatBox.innerHTML += "<p><b>You:</b> "+input+"</p>";
-
-  let response = "Transaction needs review.";
-
-  if(input.toLowerCase().includes("zakat")){
-    response = "Zakat = Rp 500.000";
-  } else if(input.toLowerCase().includes("sharia")){
-    response = "Transaction is Sharia Compliant.";
-  }
-
-  chatBox.innerHTML += "<p><b>AI:</b> "+response+"</p>";
-  document.getElementById("userInput").value = "";
+// AI
+function chat(){
+  let val = document.getElementById("input").value;
+  document.getElementById("chat").innerHTML += "<p>"+val+"</p>";
 }
 
 </script>
