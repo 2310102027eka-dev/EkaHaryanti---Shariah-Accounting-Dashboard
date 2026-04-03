@@ -6,13 +6,122 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-body { font-family: Arial; margin:0; background:#f4f6f8;}
-.sidebar {width:220px;height:100vh;background:#134e4a;position:fixed;color:white;}
-.sidebar a {display:block;padding:12px;color:white;text-decoration:none;}
-.sidebar a:hover {background:#0f766e;}
-.main {margin-left:220px;padding:20px;}
-.card {background:white;padding:20px;margin:10px;border-radius:10px;}
-.ai-box {position:fixed;right:20px;bottom:20px;width:250px;background:white;border-radius:10px;}
+body { font-family: Arial; margin:0; background:#f4f6f8; }
+
+/* SIDEBAR KIRI */
+.sidebar {
+  width:200px; height:100vh; background:#134e4a;
+  position:fixed; color:white;
+}
+
+.sidebar a {
+  display:block; padding:12px; color:white; text-decoration:none;
+}
+.sidebar a:hover { background:#0f766e; }
+
+/* MAIN CONTENT */
+.main {
+  margin-left:200px;
+  margin-right:300px; /* space untuk AI */
+  padding:20px;
+}
+
+/* AI SIDEBAR KANAN */
+.ai-panel {
+  position:fixed;
+  right:0;
+  top:0;
+  width:300px;
+  height:100vh;
+  background:white;
+  border-left:1px solid #ddd;
+  display:flex;
+  flex-direction:column;
+}
+
+.ai-header {
+  background:#0f766e;
+  color:white;
+  padding:15px;
+  font-weight:bold;
+}
+
+.ai-body {
+  flex:1;
+  padding:10px;
+  overflow-y:auto;
+}
+
+.ai-input {
+  display:flex;
+  border-top:1px solid #ddd;
+}
+
+.ai-input input {
+  flex:1;
+  padding:10px;
+  border:none;
+}
+
+.ai-input button {
+  background:#0f766e;
+  color:white;
+  border:none;
+  padding:10px;
+}
+
+/* CARD */
+.card {
+  background:white;
+  padding:20px;
+  margin-bottom:15px;
+  border-radius:10px;
+}
+
+/* TABLE MODERN */
+.table-container {
+  background:white;
+  border-radius:10px;
+  padding:15px;
+  margin-top:20px;
+}
+
+table {
+  width:100%;
+  border-collapse:collapse;
+}
+
+th {
+  background:#0f766e;
+  color:white;
+  padding:10px;
+}
+
+td {
+  padding:10px;
+  border-bottom:1px solid #eee;
+}
+
+tr:hover {
+  background:#f1f5f9;
+}
+
+.badge-ok {
+  background:#d1fae5;
+  color:#065f46;
+  padding:5px 10px;
+  border-radius:8px;
+  font-size:12px;
+}
+
+.badge-review {
+  background:#fef3c7;
+  color:#92400e;
+  padding:5px 10px;
+  border-radius:8px;
+  font-size:12px;
+}
+
 </style>
 </head>
 
@@ -28,16 +137,52 @@ body { font-family: Arial; margin:0; background:#f4f6f8;}
   <a onclick="showPage('settings')">Settings</a>
 </div>
 
+<!-- MAIN -->
 <div class="main">
 
-<!-- OVERVIEW -->
 <div id="overview">
   <h2>Dashboard</h2>
-  <div class="card">Assets: Rp 10M</div>
+
+  <div class="card">Total Assets: Rp 10M</div>
+
   <canvas id="chart"></canvas>
+
+  <!-- TABEL -->
+  <div class="table-container">
+    <h3>Recent Transactions</h3>
+    <table>
+      <tr>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Amount</th>
+        <th>Status</th>
+      </tr>
+
+      <tr>
+        <td>01/03/2026</td>
+        <td>Murabaha Financing</td>
+        <td>Rp 2.000.000</td>
+        <td><span class="badge-ok">Sharia Compliant</span></td>
+      </tr>
+
+      <tr>
+        <td>02/03/2026</td>
+        <td>Unknown Transfer</td>
+        <td>Rp 1.500.000</td>
+        <td><span class="badge-review">Manual Review</span></td>
+      </tr>
+
+      <tr>
+        <td>03/03/2026</td>
+        <td>Zakat Distribution</td>
+        <td>Rp 500.000</td>
+        <td><span class="badge-ok">Approved</span></td>
+      </tr>
+
+    </table>
+  </div>
 </div>
 
-<!-- PAGE -->
 <div id="mudharabah" style="display:none;"><h2>Mudharabah Page</h2></div>
 <div id="zakat" style="display:none;"><h2>Zakat Page</h2></div>
 <div id="audit" style="display:none;"><h2>Audit Page</h2></div>
@@ -45,25 +190,28 @@ body { font-family: Arial; margin:0; background:#f4f6f8;}
 
 </div>
 
-<!-- AI -->
-<div class="ai-box">
-  <input id="input">
-  <button onclick="chat()">Send</button>
-  <div id="chat"></div>
+<!-- AI PANEL KANAN -->
+<div class="ai-panel">
+  <div class="ai-header">Sharia AI Assistant</div>
+
+  <div class="ai-body" id="chat">
+    <p><b>AI:</b> Ask about zakat or compliance</p>
+  </div>
+
+  <div class="ai-input">
+    <input id="input" placeholder="Ask something...">
+    <button onclick="chat()">Send</button>
+  </div>
 </div>
 
 <script>
 
-// NAVIGATION FIX (SUPER STABIL)
+// NAVIGATION
 function showPage(page){
   let pages = ["overview","mudharabah","zakat","audit","settings"];
-  for(let i=0;i<pages.length;i++){
-    document.getElementById(pages[i]).style.display="none";
-  }
+  pages.forEach(p => document.getElementById(p).style.display="none");
   document.getElementById(page).style.display="block";
 }
-
-// DEFAULT PAGE
 showPage("overview");
 
 // CHART
@@ -75,10 +223,22 @@ new Chart(document.getElementById("chart"), {
   }
 });
 
-// AI
+// AI CHAT
 function chat(){
   let val = document.getElementById("input").value;
-  document.getElementById("chat").innerHTML += "<p>"+val+"</p>";
+  let chatBox = document.getElementById("chat");
+
+  chatBox.innerHTML += "<p><b>You:</b> "+val+"</p>";
+
+  let response = "Need review";
+  if(val.toLowerCase().includes("zakat")){
+    response = "Zakat = Rp 500.000";
+  } else if(val.toLowerCase().includes("sharia")){
+    response = "Transaction is compliant";
+  }
+
+  chatBox.innerHTML += "<p><b>AI:</b> "+response+"</p>";
+  document.getElementById("input").value="";
 }
 
 </script>
